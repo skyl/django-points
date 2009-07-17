@@ -4,7 +4,7 @@ from django.views.generic.list_detail import object_list
 
 urlpatterns = patterns('',
     url(r'^$', view='points.views.all', name="point_list"),
-    #url(r'(?P<id>\d+)/$', view='detail', name='point_detail'),
+    url(r'(?P<id>\d+)/$', view='points.views.detail', name='point_detail'),
 
     # FIXME if the slug is just numbers this would be bad
     #url(r'(?P<app_label>[-\w]+)/(?P<model_name>[-\w]+)/(?P<id>\d+)/$',\

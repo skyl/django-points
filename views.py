@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
-
+from django.core.urlresolvers import reverse
 from django.template import RequestContext
 
 from points.forms import PointForm
@@ -25,9 +25,8 @@ def all(request):
             properties=['content_object'])
     geoj = GeoJSON.GeoJSON()
 
-    #if request.is_ajax():
-    if True:
-        response_dict = {'points':points,}
+
+    if request.is_ajax():
         return HttpResponse(serializers.serialize("json",points),\
                 mimetype='application/javascript')
     else:
@@ -35,6 +34,21 @@ def all(request):
         return render_to_response('points/all.html', context,\
                 context_instance=RequestContext(request))
 
+def detail(request, id):
+    try:
+        point = Point.objects.get(id=id)
+    except:
+        return HttpResponseRedirect(reverse('points_all'))
+
+    context = {'point':point, }
+
+    if request.is_ajax():
+        return HttpResponse(serializers.serialize("json", point),
+                mimetype='application/javascript')
+
+    else:
+        return render_to_response('points/detail.html', context,\
+                context_instance=RequestContext(request))
 '''
 @login_required
 def point_form(request, model=None, slug=None, id=None):
