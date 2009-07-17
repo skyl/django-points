@@ -3,6 +3,8 @@ from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
+from django.contrib.contenttypes.models import ContentType
+
 
 from points.forms import PointForm
 from points.models import Point
@@ -35,12 +37,22 @@ def all(request):
                 context_instance=RequestContext(request))
 
 def detail(request, id):
+    ''' Responds with the point and related object information to the template
+
+    '''
+
     try:
         point = Point.objects.get(id=id)
     except:
-        return HttpResponseRedirect(reverse('points_all'))
+        return HttpResponseRedirect(reverse('points_list'))
 
-    context = {'point':point, }
+    t = ContentType.objects.get(\
+            app_label = point.content_type.app_label,
+            model = point.content_type.model)
+
+    o = t.get_object_for_this_type(id = point.object_id)
+
+    context = {'point':point, 'object':o , }
 
     if request.is_ajax():
         return HttpResponse(serializers.serialize("json", point),
@@ -49,6 +61,37 @@ def detail(request, id):
     else:
         return render_to_response('points/detail.html', context,\
                 context_instance=RequestContext(request))
+
+@login_required
+def delete(request, id):
+    ''' can delete a point with a POST from the owner via ajax or otherwise
+
+    '''
+    try:
+        point = Point.objects.get(id=id)
+    except:
+        return HttpResponseRedirect(reverse('points_list'))
+
+    context = {'point':point,}
+    if request.user == point.owner:
+
+        if request.method == 'POST':
+            if request.is_ajax():
+                point.delete()
+                return HttpResponse(status=201)
+
+            else:
+                point.delete()
+                return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+        else:
+            return render_to_response('points/confirm_delete.html', context,\
+                    context_instance=RequestContext(request))
+
+    else:
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
 '''
 @login_required
 def point_form(request, model=None, slug=None, id=None):

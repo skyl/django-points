@@ -1,5 +1,8 @@
 {% extends 'points/base.html' %}
 {% block body %}
-hello there
+{% for p in points %}
+
+{{p.id}}: {{p.owner}}, {{p.owner.get_absolute_url}}, {{p.point}} <br>
+{% endfor %}
 
 {% endblock %}

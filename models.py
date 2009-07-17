@@ -12,6 +12,8 @@ class Point(models.Model):
     point = models.PointField()
     objects = models.GeoManager()
 
+    owner = models.ForeignKey('auth.User')
+
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey()

@@ -3,28 +3,31 @@ from django.views.generic.simple import direct_to_template
 from django.views.generic.list_detail import object_list
 
 urlpatterns = patterns('',
-    url(r'^$', view='points.views.all', name="point_list"),
-    url(r'(?P<id>\d+)/$', view='points.views.detail', name='point_detail'),
+    url(r'^$', view='points.views.all', name="points_list"),
+    url(r'^(?P<id>\d+)/$', view='points.views.detail', name='points_detail'),
+
+    url(r'^delete/(?P<id>\d+)/', view='points.views.delete', name='points_delete'),
+
+    #url(r'change/(?P<id>\d+)/', view='point_form', name='point_change'),
+
 
     # FIXME if the slug is just numbers this would be bad
     #url(r'(?P<app_label>[-\w]+)/(?P<model_name>[-\w]+)/(?P<id>\d+)/$',\
-    #            view='point_list', name='point_list'),
+    #            view='point_list', name='points_list'),
 
     #url(r'(?P<app_label>[-\w]+)/(?P<model_name>[-\w]+)/(?P<slug>[-\w]+)/$',\
-    #            view='point_list', name='point_list'),
+    #            view='point_list', name='points_list'),
 
     #url(r'(?P<app_label>[-\w]+)/(?P<model_name>[-\w]+)/$',\
-    #            view='point_list', name='point_list'),
+    #            view='point_list', name='points_list'),
 
 
 
     #url(r'(?P<app_label>[-\w]+)/(?P<model_name>[-\w]+)/(?P<id>\d+)/add/$',\
-    #            view='point_form', name='point_form'),
+    #            view='point_form', name='points_form'),
     #url(r'(?P<app_label>[-\w]+)/(?P<model_name>[-\w]+)/(?P<slug>[-\w]+)/add/$',\
-    #             view='point_form', name='point_form'),
+    #             view='point_form', name='points_form'),
 
-    #url(r'change/(?P<id>[-\w]+)/', view='point_form', name='point_change'),
-    #url(r'delete/(?P<id>[-\w]+)/', view='point_delete', name='point_delete'),
 
 
 
