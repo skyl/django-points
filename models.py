@@ -16,8 +16,8 @@ class Point(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey()
 
-#    def __unicode__(self):
-#        return self.point.tuple.0
+    def __unicode__(self):
+        return "%s-%s" % (self.content_object, self.point)
 
 
 
