@@ -8,7 +8,7 @@ urlpatterns = patterns('',
 
     url(r'^delete/(?P<id>\d+)/', view='points.views.delete', name='points_delete'),
 
-    #url(r'change/(?P<id>\d+)/', view='point_form', name='point_change'),
+    url(r'change/(?P<id>\d+)/', view='points.views.form', name='points_change'),
 
 
     # FIXME if the slug is just numbers this would be bad

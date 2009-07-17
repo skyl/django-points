@@ -1,0 +1,21 @@
+{% extends 'points/base.html' %}
+{% block extra_head %}
+
+    {% load uni_form %}
+
+    {{ form.media }}
+
+{% endblock %} 
+
+{% block body %}
+    <form class="uniForm" id="edit-profile" method="POST" enctype="multipart/form-data" action="">
+        <fieldset class="inlineLabels">
+            {{ form|as_uni_form }}
+            <div class="form_block">
+                <input type="hidden" name="action" value="upload" />
+                <input type="submit" value="Change" />
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}
+

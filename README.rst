@@ -13,7 +13,8 @@ Installation
   * makes sure that your site_name is correct in the db
   * put (r'^points/', include('points.urls')), in main urlconf
        # FIXME?
-       * you may use a different location but get_absolute_urls are directed here
+       you may use a different location but get_absolute_urls are directed here
 
+  * requires olwidget and django.contrib.contenttypes (installed by default)
 
 

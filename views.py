@@ -92,16 +92,42 @@ def delete(request, id):
         return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
-'''
+
 @login_required
-def point_form(request, model=None, slug=None, id=None):
+def form(request, id):
+    ''' Change the point location for a Point '''
+
+    try:
+        point = Point.objects.get(id=id)
+    except:
+        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+    if request.method == 'POST' and point.owner == request.user:
+
+        form = PointForm(request.POST, instance=point)
+
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(request.META['HTTP_REFERER']) 
+
+    elif point.owner == request.user:
+        form = PointForm( instance=point )
+        context = {'point':point, 'form':form}
+        return render_to_response('points/change.html', context,\
+                context_instance=RequestContext(request) )
+
+    else:
+        return HttpResponseRedirect(request.META['HTTP_REFERAL'])
+'''
+    one can supply id-only to change an existing Point or, alter
     print request.META['HTTP_REFERER']
 
-    if id:
-        try:
-            point = Point.objects.get(id=id)
-        except:
-            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+    if id and not app_label and not model_name and not slug:
+        if request.method == 'POST':
+            try:
+                point = Point.objects.get(id=id)
+            except:
+                return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
     if request.method == 'POST':
         if point:
@@ -123,11 +149,5 @@ def point_form(request, model=None, slug=None, id=None):
             context = {}
 
         return render_to_response('points/point_form.html', context,\
-                context_instance = RequestContext(request) )
-
-def point_show(request, id):
-    point = Point.objects.get(id=id)
-    context = {'point':point,}
-    return render_to_response('points/point_display.html', context,\
                 context_instance = RequestContext(request) )
 '''
