@@ -107,8 +107,12 @@ def form(request, id):
         form = PointForm(request.POST, instance=point)
 
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(request.META['HTTP_REFERER']) 
+            if request.is_ajax():
+                form.save()
+                return HttpResponse(status=201)
+            else:
+                form.save()
+                return HttpResponseRedirect(request.META['HTTP_REFERER']) 
 
     elif point.owner == request.user:
         form = PointForm( instance=point )
