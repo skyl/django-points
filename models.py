@@ -21,6 +21,7 @@ class Point(models.Model):
     def __unicode__(self):
         return "%s-%s" % (self.content_object, self.point)
 
+    @models.permalink
     def get_absolute_url(self):
-        return '/points/%d/' % self.id
+        return ('points.views.detail', str(self.id))
 
