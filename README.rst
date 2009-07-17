@@ -12,9 +12,21 @@ Installation
   * syncdb
   * makes sure that your site_name is correct in the db
   * put (r'^points/', include('points.urls')), in main urlconf
-       # FIXME?
-       you may use a different location but get_absolute_urls are directed here
+        # FIXME?
+        you may use a different location but get_absolute_urls are directed here
 
   * requires olwidget and django.contrib.contenttypes (installed by default)
+
+  **Note for pinax users and those using django-uni-form**
+  This css rule when rendering \{\{form\|as_uni_form\}\}::
+
+	    .uniForm .inlineLabels label,
+	    .uniform .inlineLabels .label{ float: left; margin: 0; padding: 0; line-height: 100%; position: relative; }
+
+  Must be removed from uni-form-generic.css (or over-ridden)
+  for the open layers form widget to work (olwidget).
+
+
+	
 
 
