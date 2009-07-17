@@ -9,35 +9,24 @@ from django.contrib.contenttypes.models import ContentType
 from points.forms import PointForm
 from points.models import Point
 
-from vectorformats.Formats import Django, GeoJSON
-'''
->>> qs = Model.objects.filter(city="Cambridge")
->>> djf = Django.Django(geodjango="geometry", properties=['city', 'state'])
->>> geoj = GeoJSON.GeoJSON()
->>> string = geoj.encode(djf.decode(qs))
->>> print string
-'''
-
+#from vectorformats.Formats import Django, GeoJSON
 from django.core import serializers
 
 
 def all(request):
     points = Point.objects.all()
-    djf = Django.Django(geodjango="point",\
-            properties=['content_object'])
-    geoj = GeoJSON.GeoJSON()
-
 
     if request.is_ajax():
         return HttpResponse(serializers.serialize("json",points),\
                 mimetype='application/javascript')
+
     else:
         context = {'points':points, }
         return render_to_response('points/all.html', context,\
                 context_instance=RequestContext(request))
 
 def detail(request, id):
-    ''' Responds with the point and related object information to the template
+    ''' Responds with the point and related object information
 
     '''
 
@@ -123,6 +112,9 @@ def form(request, id):
     else:
         return HttpResponseRedirect(request.META['HTTP_REFERAL'])
 '''
+
+Below is scratch, not documentation.
+
     one can supply id-only to change an existing Point or, alter
     print request.META['HTTP_REFERER']
 
