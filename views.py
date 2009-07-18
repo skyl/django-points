@@ -22,6 +22,7 @@ def list(request, app_label=None, model_name=None, id=None):
 
     if not id and not model_name and not app_label:
         points = Point.objects.all()
+        context = { 'points':points, }
 
     elif id and model_name and app_label:
         try:
@@ -192,15 +193,11 @@ def add(request, app_label, model_name, id):
             return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
     if request.method == 'POST':
+        request.POST.update( {'owner':request.user.id, 'object_id':id,\
+                'content_type':ct.id, 'content_obj':obj,} )
         form = PointForm(request.POST)
 
         if form.is_valid():
-            # FIXME? do we need to try/except this suite?
-            form.save(commit=False)
-            form.owner = request.user
-            form.object_id = id
-            form.content_type = ct
-            form.content_obj = obj
             form.save()
 
             # FIXME? is this really a way that we can handle the redirect?
@@ -208,13 +205,18 @@ def add(request, app_label, model_name, id):
                 return HttpResponse(status=201)
 
             else:
-                return HttpResponseRedirect(request.META['HTTP_REFERER'])
+                try:
+                    return HttpResponseRedirect(obj.get_absolute_url())
+                except:
+                    # FIXME, where am I going with this?
+                    return HttpResponseRedirect('/')
 
     else:
         form = PointForm()
-        context = {'form':form, 'object':obj, 'content_type':ct, }
 
-        return render_to_response('points/add.html', context,\
-                context_instance = RequestContext(request))
+    context = {'form':form, 'object':obj, 'content_type':ct, }
+
+    return render_to_response('points/add.html', context,\
+            context_instance = RequestContext(request))
 
 
