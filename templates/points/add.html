@@ -1,11 +1,12 @@
 {% extends 'points/base.html' %}
+
 {% block extra_head %}
 
     {% load uni_form %}
 
     {{ form.media }}
 
-{% endblock %} 
+{% endblock %}
 
 {% block body %}
     {# FIXME I think I copied this from a form with a file? should I change that enctype? #}
@@ -14,7 +15,7 @@
             {{ form|as_uni_form }}
             <div class="form_block">
                 <input type="hidden" name="action" value="upload" />
-                <input type="submit" value="Change" />
+                <input type="submit" value="Add" />
             </div>
         </fieldset>
     </form>
