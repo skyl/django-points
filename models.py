@@ -9,6 +9,7 @@ class Point(models.Model):
 
     '''
     zoom = models.PositiveIntegerField(blank=True, null=True)
+    datetime = models.DateTimeField(editable=False, auto_now=True)
     point = models.PointField()
     objects = models.GeoManager()
 
