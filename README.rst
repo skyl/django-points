@@ -7,6 +7,8 @@ A reusable app for tagging 1 or more geographic location to any model instance.
 Building for pinax-compliance and convenient JSON API.
 
 Installation
+  * check out the source as points (rather than django-point)
+    alternately, just mv the directory.
   * put the dir on your pythonpath
   * add 'points' to INSTALLED_APPS
   * syncdb
