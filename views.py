@@ -96,6 +96,7 @@ def detail(request, id):
 
     context = {'point':point, 'object':obj, 'content_type': ct,  }
 
+    # FIXME you can't serialize a single point like this!
     if request.is_ajax():
         return HttpResponse(serializers.serialize("json", point),
                 mimetype='application/javascript')
