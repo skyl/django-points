@@ -1,5 +1,7 @@
 {% extends 'points/base.html' %}
 {% block body %}
-{{point.id}}  {{point.owner.get_absolute_url}};<br>
+{% for p in point %}
+{{p.id}}  {{p.owner.get_absolute_url}};<br>
 {{object}}, {{object.get_absolute_url}}
+{% endfor %}
 {% endblock %}

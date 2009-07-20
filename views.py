@@ -83,16 +83,17 @@ def detail(request, id):
     '''
 
     try:
-        point = Point.objects.get(id=id)
+        point = Point.objects.get( id=id )
+        point = Point.objects.filter( id=id )
 
     except:
         return HttpResponseRedirect(reverse('points_list'))
 
     ct = ContentType.objects.get(\
-            app_label = point.content_type.app_label,
-            model = point.content_type.model)
+            app_label = point[0].content_type.app_label,
+            model = point[0].content_type.model)
 
-    obj = ct.get_object_for_this_type(id = point.object_id)
+    obj = ct.get_object_for_this_type(id = point[0].object_id)
 
     context = {'point':point, 'object':obj, 'content_type': ct,  }
 
