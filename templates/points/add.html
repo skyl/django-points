@@ -4,12 +4,29 @@
 
     {% load uni_form %}
 
-    {{ form.media }}
+    {{ points_form_media }}
+
+    <style>
+        div#id_point_map {
+            clear:both;
+        }
+    </style>
+
+    {# FIXME make this some sort of custom template obj #}
+    <script>
+        $(function () {
+            $('form#edit-point').submit( function() {
+                $('input#id_point').val(map{{id}}.getZoom());
+            });
+        });
+    </script>
 
 {% endblock %}
 
 {% block body %}
-    {# FIXME I think I copied this from a form with a file? should I change that enctype? #}
+{# FIXME I think I copied this from a form with a file? should I change that enctype? #}
+
+<div style='width:90%; margin:0 auto;'>
     <form class="uniForm" id="edit-point" method="POST" enctype="multipart/form-data" action="">
         <fieldset class="inlineLabels">
             {{ form|as_uni_form }}
@@ -19,5 +36,7 @@
             </div>
         </fieldset>
     </form>
+</div>
+
 {% endblock %}
 

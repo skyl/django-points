@@ -1,4 +1,5 @@
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse,\
+        HttpResponseNotFound
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
@@ -8,12 +9,14 @@ from django.contrib.contenttypes.models import ContentType
 
 from points.forms import PointForm
 from points.models import Point
+from olwidget.widgets import MapDisplay
+
 
 #from vectorformats.Formats import Django, GeoJSON
 from django.core import serializers
 
 
-def list(request, app_label=None, model_name=None, id=None):
+def list(request, app_label=None, model_name=None, id=None, ):
     ''' List all points (ALL, all for model instance, or all for table)
 
     I wanted to overload a view for fun so as to be more dry but all of this
@@ -22,7 +25,8 @@ def list(request, app_label=None, model_name=None, id=None):
 
     if not id and not model_name and not app_label:
         points = Point.objects.all()
-        context = { 'points':points, }
+        map = MapDisplay( fields=[p.point for p in points], )
+        context = { 'map':map, }
 
     elif id and model_name and app_label:
         try:
@@ -35,11 +39,8 @@ def list(request, app_label=None, model_name=None, id=None):
             points = Point.objects.filter( content_object=obj )
 
         except:
-            # FIXME, does this look good?  In need of a convention...
-            if request.is_ajax():
-                return HttpResponse(status=500)
-            else:
-                return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+            return HttpResponseRedirect(reverse('points_list'))
 
         points = Point.objects.filter(content_object = obj)
         context = {'points':points, 'object':obj, 'content_type':ct, }
@@ -52,21 +53,14 @@ def list(request, app_label=None, model_name=None, id=None):
         except:
             # FIXME, does this look good?  In need of a convention...
             # and, this could be a bit more DRY?
-            if request.is_ajax():
-                return HttpResponse(status=500)
-            else:
-                return HttpResponseRedirect(request.META['HTTP_REFERER'])
+            return HttpResponseRedirect(reverse('points_list'))
 
         points = Point.objects.filter(content_type = ct)
         context = {'points':points, 'content_type':ct, }
 
     else:
-        # FIXME seriously, this might not be cool..
-        if request.is_ajax():
-            return HttpResponse(status=500)
 
-        else:
-            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+        return HttpResponseNotFound()
 
 
     if request.is_ajax():
@@ -83,6 +77,7 @@ def detail(request, id):
     '''
 
     try:
+        # FIXME hacky, clever or both?
         point = Point.objects.get( id=id )
         point = Point.objects.filter( id=id )
 
@@ -97,8 +92,8 @@ def detail(request, id):
 
     context = {'point':point, 'object':obj, 'content_type': ct,  }
 
-    # FIXME you can't serialize a single point like this!
     if request.is_ajax():
+        # ^^ b/c we need an interable to serialize
         return HttpResponse(serializers.serialize("json", point),
                 mimetype='application/javascript')
 
@@ -114,32 +109,21 @@ def delete(request, id):
     try:
         point = Point.objects.get(id=id)
     except:
-        # FIXME?
-        if request.is_ajax():
-            return HttpResponse(status=500)
-
-        else:
-            #return HttpResponseRedirect(reverse('points_list'))
-            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+        return HttpResponseNotFound()
 
     context = {'point':point,}
     if request.user == point.owner:
 
         if request.method == 'POST':
-            if request.is_ajax():
-                point.delete()
-                return HttpResponse(status=201)
-
-            else:
-                point.delete()
-                return HttpResponseRedirect(request.META['HTTP_REFERER'])
+            point.delete()
+            return HttpResponseNotFound()
 
         else:
             return render_to_response('points/confirm_delete.html', context,\
                     context_instance=RequestContext(request))
 
     else:
-        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+        return HttpResponseNotFound()
 
 @login_required
 def change(request, id):
@@ -148,7 +132,7 @@ def change(request, id):
     try:
         point = Point.objects.get(id=id)
     except:
-        return HttpResponseRedirect(request.META['HTTP_REFERER'])
+        return HttpResponseNotFound()
 
     if request.method == 'POST' and point.owner == request.user:
 
@@ -159,10 +143,7 @@ def change(request, id):
 
         if form.is_valid():
             form.save()
-            if request.is_ajax():
-                return HttpResponse(status=201)
-            else:
-                return HttpResponseRedirect(request.META['HTTP_REFERER'])
+            return HttpResponseNotFound()
 
     elif point.owner == request.user:
         form = PointForm( instance=point )
@@ -171,7 +152,7 @@ def change(request, id):
                 context_instance=RequestContext(request) )
 
     else:
-        return HttpResponseRedirect(request.META['HTTP_REFERAL'])
+        return HttpResponseNotFound()
 
 @login_required
 def add(request, app_label, model_name, id):
@@ -188,11 +169,10 @@ def add(request, app_label, model_name, id):
 
     except:
         if request.is_ajax():
-            # FIXME? is this the right thing to return?
-            return HttpResponse(status=500)
+            return HttpResponse(status=404)
 
         else:
-            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+            return HttpResponseNotFound()
 
     if request.method == 'POST':
         request.POST.update( {'owner':request.user.id, 'object_id':id,\
@@ -202,7 +182,6 @@ def add(request, app_label, model_name, id):
         if form.is_valid():
             form.save()
 
-            # FIXME? is this really a way that we can handle the redirect?
             if request.is_ajax():
                 return HttpResponse(status=201)
 

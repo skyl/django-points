@@ -1,8 +1,10 @@
 {% extends 'points/base.html' %}
-{% block body %}
-{% for p in points %}
 
-{{p.id}}: {{p.owner}}, {{p.owner.get_absolute_url}}, {{p.point}} <br>
-{% endfor %}
+{% block extra_head %}
+{{map.media}}
+{% endblock %}
+
+{% block body %}
+{{map}}
 
 {% endblock %}
