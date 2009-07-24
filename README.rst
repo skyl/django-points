@@ -22,7 +22,8 @@ Requirements
 ------------
   * olwidget
   * django.contrib.contenttypes (installed by default)
-  * GeoDjango.
+  * GeoDjango with geoip #FIXME make optional?
+    http://geolite.maxmind.com/download/geoip/api/c/
 
   Note::
 
@@ -44,17 +45,13 @@ Usage
 
         url(r'change/(?P<id>\d+)/', view='points.views.change', name='points_change'),
 
-        url(r'list/(?P<app_label>[-\w]+)/(?P<model_name>[-\w]+)/(?P<id>\d+)/$',\
-            view='points.views.list', name='points_list'),
+        url(r'list/(?P<app_label>[-\w]+)/(?P<model_name>[-\w]+)/(?P<id>\d+)/$', view='points.views.list', name='points_list'),
 
-        url(r'list/(?P<app_label>[-\w]+)/(?P<model_name>[-\w]+)/$',\
-            view='points.views.list', name='points_list'),
+        url(r'list/(?P<app_label>[-\w]+)/(?P<model_name>[-\w]+)/$', view='points.views.list', name='points_list'),
 
-        url(r'add/(?P<app_label>[-\w]+)/(?P<model_name>[-\w]+)/(?P<id>\d+)/$',\
-            view='points.views.add', name='points_add'),
+        url(r'add/(?P<app_label>[-\w]+)/(?P<model_name>[-\w]+)/(?P<id>\d+)/$', view='points.views.add', name='points_add'),
 
-
-
+    
   **Note for pinax users and those using django-uni-form**
   This css rule must be removed from uni-form-generic.css (or over-ridden)
   for the open layers form widget to work (olwidget).
@@ -67,8 +64,8 @@ Usage
             div#id_point_map { clear:both; }
 
 
-  pro-tip: there may be a bug in YOUR env,
-  psycopg2, Pinax that may cause and error on syncdb::
+  there may be a bug in YOUR env,
+  psycopg2, Pinax that may cause an error when running syncdb::
 
     psycopg2.ProgrammingError: column points_point.point does not exist
 
