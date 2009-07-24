@@ -35,10 +35,8 @@ Usage
     
     You now have access to the following urls:
 
-        # list all of the points, in JSON if request.is_ajax()
         url(r'^$', view='points.views.list', name="points_list"),
         
-        # Detail of single point and related obj
         url(r'^(?P<id>\d+)/$', view='points.views.detail', name='points_detail'),
 
         url(r'^delete/(?P<id>\d+)/', view='points.views.delete', name='points_delete'),
