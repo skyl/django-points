@@ -76,28 +76,23 @@ def detail(request, id):
     '''
 
     try:
-        # FIXME hacky, clever or both?
         point = Point.objects.get( id=id )
-        point = Point.objects.filter( id=id )
 
     except:
         return HttpResponseRedirect(reverse('points_list'))
 
+
+    map = MapDisplay( fields = [ point.point, ]  )
+
     ct = ContentType.objects.get(\
-            app_label = point[0].content_type.app_label,
-            model = point[0].content_type.model)
+            app_label = point.content_type.app_label,
+            model = point.content_type.model)
 
-    obj = ct.get_object_for_this_type(id = point[0].object_id)
+    obj = ct.get_object_for_this_type(id = point.object_id)
 
-    context = {'point':point, 'object':obj, 'content_type': ct,  }
+    context = {'point':point, 'object':obj, 'content_type': ct, 'map':map,  }
 
-    #if request.is_ajax():
-    #    # ^^ b/c we need an interable to serialize
-    #    return HttpResponse(serializers.serialize("json", point),
-    #            mimetype='application/javascript')
-
-    else:
-        return render_to_response('points/detail.html', context,\
+    return render_to_response('points/detail.html', context,\
                 context_instance=RequestContext(request))
 
 @login_required
@@ -135,17 +130,14 @@ def change(request, id):
 
     if request.method == 'POST' and point.owner == request.user:
 
-        # FIXME? What needs to be posted with ajax to make a valid form?
-        # I would hope that you could just post 1 field and the others
-        # would stay the same.  Think that is the way that it would work.
         form = PointForm(request.POST, instance=point)
 
         if form.is_valid():
             form.save()
-            return HttpResponseNotFound()
+            return HttpResponseRedirect(point.get_absolute_url())
 
     elif point.owner == request.user:
-        form = PointForm( instance=point )
+        form = PointForm( instance=point)
         context = {'point':point, 'form':form, }
         return render_to_response('points/change.html', context,\
                 context_instance=RequestContext(request) )
@@ -179,8 +171,8 @@ def add(request, app_label, model_name, id):
 
             try:
                 return HttpResponseRedirect(obj.get_absolute_url())
-             except:
-                return HttpResponseRedirect(reverse('points_list')
+            except:
+                return HttpResponseRedirect(reverse('points_list'))
 
     else:
         form = PointForm()

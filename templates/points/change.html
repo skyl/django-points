@@ -15,7 +15,7 @@
     <script>
         $(function () {
             $('form#edit-point').submit( function() {
-                $('input#id_point').val(map{{id}}.getZoom());
+                $('input#id_zoom').val(map.map.getZoom());
             });
         });
     </script>
