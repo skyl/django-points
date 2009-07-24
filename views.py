@@ -63,12 +63,11 @@ def list(request, app_label=None, model_name=None, id=None, ):
         return HttpResponseNotFound()
 
 
-    if request.is_ajax():
-        return HttpResponse(serializers.serialize("json",points),\
-                mimetype='application/javascript')
+    #if request.is_ajax():
+    #    return HttpResponse(serializers.serialize("json",points),\
+    #            mimetype='application/javascript')
 
-    else:
-        return render_to_response('points/all.html', context,\
+    return render_to_response('points/all.html', context,\
                 context_instance=RequestContext(request))
 
 def detail(request, id):
@@ -92,10 +91,10 @@ def detail(request, id):
 
     context = {'point':point, 'object':obj, 'content_type': ct,  }
 
-    if request.is_ajax():
-        # ^^ b/c we need an interable to serialize
-        return HttpResponse(serializers.serialize("json", point),
-                mimetype='application/javascript')
+    #if request.is_ajax():
+    #    # ^^ b/c we need an interable to serialize
+    #    return HttpResponse(serializers.serialize("json", point),
+    #            mimetype='application/javascript')
 
     else:
         return render_to_response('points/detail.html', context,\
@@ -103,7 +102,7 @@ def detail(request, id):
 
 @login_required
 def delete(request, id):
-    ''' can delete a point with a POST from the owner via ajax or otherwise
+    ''' can delete a point with a POST from the owner
 
     '''
     try:
@@ -168,11 +167,7 @@ def add(request, app_label, model_name, id):
         obj = ct.get_object_for_this_type( id=id )
 
     except:
-        if request.is_ajax():
-            return HttpResponse(status=404)
-
-        else:
-            return HttpResponseNotFound()
+        return HttpResponseNotFound()
 
     if request.method == 'POST':
         request.POST.update( {'owner':request.user.id, 'object_id':id,\
@@ -182,15 +177,10 @@ def add(request, app_label, model_name, id):
         if form.is_valid():
             form.save()
 
-            if request.is_ajax():
-                return HttpResponse(status=201)
-
-            else:
-                try:
-                    return HttpResponseRedirect(obj.get_absolute_url())
-                except:
-                    # FIXME, where am I going with this?
-                    return HttpResponseRedirect('/')
+            try:
+                return HttpResponseRedirect(obj.get_absolute_url())
+             except:
+                return HttpResponseRedirect(reverse('points_list')
 
     else:
         form = PointForm()
