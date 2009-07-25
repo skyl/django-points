@@ -1,0 +1,9 @@
+
+<a href="{% url points_add app_label=app_label model_name=model_name id=model_instance.id %}"
+  {% if css_class %}
+    class="{{css_class}}"    
+  {% endif %}
+>Tag a Geographic point to {{model_instance}}
+</a>
+
+
