@@ -17,6 +17,11 @@ Installation
     * syncdb
     * makes sure that your site_name is correct in the db
     * put (r'^points/', include('points.urls')), in main urlconf
+    * add
+      GOOGLE_API_KEY = 
+      'ABQIAAAABH87p-yQOJj-sh06NusQiRTpH3CbXHjuCVmaTc5MkkU4wO1RRhTdrjDBgVDitkd2sidQwpIj12NE2w'
+      to your settings.py to use the GOOGLE_MAPS_API for 127.0.0.1:800 or get your own:
+      http://code.google.com/apis/maps/signup.html
 
 Requirements
 ------------
@@ -51,7 +56,7 @@ You now have access to the following urls:
     url(r'add/(?P<app_label>[-\w]+)/(?P<model_name>[-\w]+)/(?P<id>\d+)/$', view='points.views.add', name='points_add'),
 
 You can add a link to the "points_add" for any model instance using the add_point_link inclusion tag::
-    {% load points %}
+    {% load point_tags %}
     {% add_point_link model_instance css_class %}
 
 Additionally, if you have jQuery and jq-ui on the page you may (in the head of your html document)::
