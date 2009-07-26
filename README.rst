@@ -57,7 +57,7 @@ You can add a link to the "points_add" for any model instance using the add_poin
 Additionally, if you have jQuery and jq-ui on the page you may (in the head of your html document)::
     {% include 'points/jqueryui_add_form.html' %}
 
-Now, instead of loading the points_add form,
+Now, instead of requesting the points_add form url,
 clicking on the rendered link will give a jquery-ui dialog to the form widget.
 
 Issues
