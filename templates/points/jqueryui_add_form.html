@@ -1,4 +1,3 @@
-{{points_form_media}}
 
 <script>
     $(function() {
@@ -13,8 +12,9 @@
             dia.load( href + " #edit-point", null, function(){
                 var title = "Add point";
                 dia.dialog({
-                    width:650, height:600, maxHeight:1200, dialogClass:'dialog', position:[0,92], 
-                    show:'slide', hide: 'slide', title:title,
+                    width:650, height:525, maxHeight:1200, dialogClass:'dialog', position:['right','bottom'], 
+                    show:'slide', hide: 'slide', title:title, draggable:false, resizeable:false, 
+
                     open: function() { 
                         hiddenLink.show();
                         $('img.loading').hide(); 
@@ -22,9 +22,13 @@
                     },
                     beforeclose: function() { 
                         dia.empty();
+                        dia.remove();
                     }
                 });
             });
         });
     });
 </script>
+
+
+{{points_form_media}}
