@@ -42,14 +42,17 @@ class PointForm(forms.ModelForm):
     '''
 
     point = forms.CharField(widget=OLWidget(
+            # the following parameters do not affect the jq-ui forms
+            # they must be set directly in jqueryui_add_form.html
             map_options = {
-                    'map_style':{
+                    'default_zoom':1,
+                    #'layers': ['google.hybrid',],
+                    'map_style': {
                         'width':'100%',
                         'height':'550px',
                     },
-                    'default_zoom':1,
-                    #'default_lat':g.lat_lon[0],
                     #'default_lon':g.lat_lon[1],
+                    #'default_lat':g.lat_lon[0],
             }
     ))
 

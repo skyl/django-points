@@ -17,7 +17,7 @@ def add_point_link(model_instance, css_class="add-point"):
 
     return locals()
 
-@register.inclusion_tag('points/test.html')
+@register.inclusion_tag('points/show_google_map.html')
 def show_google_map(model_instance, css_id="default-map"):
     ''' Turn a DOM element into a map using the google API
 

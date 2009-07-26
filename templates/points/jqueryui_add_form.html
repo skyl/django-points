@@ -1,5 +1,7 @@
 
+
 <script>
+    //FIXME this.parentNode is null when closing the dialog
     $(function() {
         $('a.add-point').live('click', function(ev) {
             var hiddenLink = $(this).hide();
@@ -18,7 +20,16 @@
                     open: function() { 
                         hiddenLink.show();
                         $('img.loading').hide(); 
-                        map = new olwidget.Map("id_point", {"layers": ["osm.mapnik"], "name": "point"});
+                        map = new olwidget.Map("id_point", {
+                            "layers": ["osm.mapnik", "google.hybrid",], 
+                            "name": "point",
+                            "default_zoom":1,
+                        });
+
+                        $('form#edit-point').submit( function() {
+                            $('input#id_zoom').val(map.map.getZoom());
+                        });
+
                     },
                     beforeclose: function() { 
                         dia.empty();
