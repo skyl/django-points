@@ -7,9 +7,18 @@ class Point(models.Model):
     ''' a geographic point that can be added to any model instance
 
     '''
-    zoom = models.PositiveIntegerField(blank=True, null=True)
+    zoom = models.PositiveIntegerField(blank=True, null=True, help_text="""Where
+            is this""")
     datetime = models.DateTimeField(editable=False, auto_now=True)
-    point = models.PointField()
+    # FIXME where is the help text? I might have to just append the help-text
+    # with javascript or have a help pop-up alert or something.
+    point = models.PointField(help_text='''
+            Choose the hand to drag the map;
+            double-click to center and zoom.
+            Choose the pencil to place a point.
+            If there are more layers installed,
+            you may choose them by clicking the plus button on the right.
+    ''')
     objects = models.GeoManager()
 
     owner = models.ForeignKey('auth.User')

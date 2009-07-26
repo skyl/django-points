@@ -86,7 +86,11 @@ def detail(request, id):
         return HttpResponseRedirect(reverse('points_list'))
 
 
-    map = MapDisplay( fields = [ point.point, ]  )
+    map = MapDisplay( fields = [ point.point, ],
+            map_options = {
+                    'map_style':{'width':'100%', 'height':'550px',},
+            }
+    )
 
     ct = ContentType.objects.get(\
             app_label = point.content_type.app_label,
