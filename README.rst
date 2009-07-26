@@ -20,13 +20,17 @@ Installation
     * add
       GOOGLE_API_KEY = 
       'ABQIAAAABH87p-yQOJj-sh06NusQiRTpH3CbXHjuCVmaTc5MkkU4wO1RRhTdrjDBgVDitkd2sidQwpIj12NE2w'
-      to your settings.py to use the GOOGLE_MAPS_API for 127.0.0.1:800 or get your own:
+      to your settings.py to use the GOOGLE_MAPS_API for 127.0.0.1:8000 or get your own:
       http://code.google.com/apis/maps/signup.html
 
 Requirements
 ------------
     * olwidget
-    * django.contrib.contenttypes (installed by default)
+    * django.contrib: contenttypes, auth (installed by default) more?
+    * django-uni-form for default implementation (some simple hacking
+      could remove this as a requirement:
+        $grep -r as_uni_form *
+      to find where this is used.
     * GeoDjango
     * jQuery and jq-ui must be on the page to use the current
       ajax implementation
