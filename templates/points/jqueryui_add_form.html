@@ -2,7 +2,7 @@
 
 <script>
     $(function() {
-        $('a.add-point').click(function(ev) {
+        $('a.add-point').live('click', function(ev) {
             var hiddenLink = $(this).hide();
             $(this).next('img.loading').show();
             ev.stopPropagation();
@@ -21,7 +21,7 @@
                         map = new olwidget.Map("id_point", {"layers": ["osm.mapnik"], "name": "point"});
                     },
                     beforeclose: function() { 
-                        dia.remove();
+                        dia.empty();
                     }
                 });
             });

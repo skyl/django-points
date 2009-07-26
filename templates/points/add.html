@@ -11,7 +11,7 @@
 {% block body %}
 {# FIXME I think I copied this from a form with a file? should I change that enctype? #}
 
-<div style='width:90%; margin:0 auto;'>
+
     <form class="uniForm" id="edit-point" method="POST" enctype="multipart/form-data" action="{% url points_add app_label=app_label model_name=model_name id=id %}">
         <fieldset class="inlineLabels">
             {{ form|as_uni_form }}
@@ -21,7 +21,6 @@
             </div>
         </fieldset>
     </form>
-</div>
 
 {% endblock %}
 

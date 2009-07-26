@@ -68,6 +68,9 @@ clicking on the rendered link will give a jquery-ui dialog to the form widget.
 Issues
 ------
 
+css and javascript
+++++++++++++++++++
+
 **Note for pinax users and those using django-uni-form**
 This css rule must be removed from uni-form-generic.css (or over-ridden)
 for the open layers form widget to work (olwidget).
@@ -79,6 +82,11 @@ Alternately, you may set the rule::
             
     div#id_point_map { clear:both; }
 
+Still, the jq-ui map widget is not perfect.  On epiphany, setting a marker down is skewed to the right a tad;
+My FF does it right for the first dialog that is opened and then is skewed for the 2,4 and 6th times it seems.
+
+database
+++++++++
 
 there may be a bug in your env,
 psycopg2, Pinax that may cause an error when running syncdb::
