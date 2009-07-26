@@ -3,7 +3,6 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 
 
-
 class Point(models.Model):
     ''' a geographic point that can be added to any model instance
 
@@ -25,4 +24,15 @@ class Point(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('points.views.detail', str(self.id))
+
+    class Meta:
+        ordering=( '-datetime', )
+
+def get_point_for_object(obj):
+    ''' takes an object and gets the last point that was add to it.
+
+    '''
+    ct = ContentType.objects.get_for_model(obj)
+    id = obj.id
+    return Point.objects.filter( content_type=ct, object_id=id )[0]
 

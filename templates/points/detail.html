@@ -2,11 +2,15 @@
 
 {% block extra_head %}
 {{map.media}}
+
+{% if point.zoom %}
 <script>
+    
     $(function() {
         map.map.zoomTo({{point.zoom}});
     });
 </script>
+{% endif %}
 
 {% endblock %}
 
