@@ -28,14 +28,14 @@ Requirements
     * olwidget
     * django.contrib: contenttypes, auth (installed by default) more?
     * django-uni-form for default implementation (some simple hacking
-      could remove this as a requirement::
+      could remove this as a requirement)::
 
             $grep -r as_uni_form *
 
       to find where this is used.
     * GeoDjango
     * jQuery and jq-ui must be on the page to use the current
-      ajax implementation
+      "ajax" implementation
 
     Note::
 

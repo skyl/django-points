@@ -5,12 +5,7 @@ the template_tag, show_google_map take a point object and renders it here
 with the css_id for the div to have the map.
 
 {% endcomment %}
-<script type="text/javascript" 
-        src="http://www.google.com/jsapi?key=ABQIAAAABH87p-yQOJj-sh06NusQiRTpH3CbXHjuCVmaTc5MkkU4wO1RRhTdrjDBgVDitkd2sidQwpIj12NE2w>" 
-</script> 
 
-
-{% if point %}
     <script type="text/javascript">
         google.load("maps", "2");
         //google.load("search", "1");
@@ -24,7 +19,12 @@ with the css_id for the div to have the map.
                 var map = new google.maps.Map2(document.getElementById("{{css_id}}"));
                 
                 var center = new GLatLng({{point.point.tuple.1}},{{point.point.tuple.0}});
+                {% if point.zoom %}
+                map.setCenter(center, {{point.zoom}});
+                {% else %}
                 map.setCenter(center, 3);
+                console.log('there must not be any zoom');
+                {% endif %}
 
                 var marker = new GMarker(center, {draggable: false});
                 map.addOverlay(marker);
@@ -42,4 +42,3 @@ with the css_id for the div to have the map.
         google.setOnLoadCallback(initialize);   
         
     </script>
-{% endif %}

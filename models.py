@@ -32,7 +32,7 @@ class Point(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('points.views.detail', str(self.id))
+        return ('points.views.detail', (str(self.id),))
 
     class Meta:
         ordering=( '-datetime', )
