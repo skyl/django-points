@@ -13,6 +13,16 @@ class PointForm(forms.ModelForm):
         map_options = {}
     ))
 
+    class Media:
+        css = {
+                'all': (
+                    'points/css/points.css',
+                    'points/css/jq-ui.css',
+                )
+        }
+
+        js = ('points/js/points.js',)
+
     class Meta:
         model = Point
 

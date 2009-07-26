@@ -2,7 +2,7 @@
 django-points
 =============
 
-A reusable app for tagging 1 or more geographic location to any model instance.
+A reusable app for tagging geographic location(s) to any model instance.
 
 Building for pinax-compliance and flexible, powerful API.
 
@@ -23,6 +23,8 @@ Requirements
     * olwidget
     * django.contrib.contenttypes (installed by default)
     * GeoDjango
+    * jQuery and jq-ui must be on the page to use the current
+      ajax implementation
 
     Note::
 
@@ -49,8 +51,17 @@ You now have access to the following urls:
     url(r'add/(?P<app_label>[-\w]+)/(?P<model_name>[-\w]+)/(?P<id>\d+)/$', view='points.views.add', name='points_add'),
 
 You can add a link to the "points_add" for any model instance using the add_point_link inclusion tag::
-
+    {% load points %}
     {% add_point_link model_instance css_class %}
+
+Additionally, if you have jQuery and jq-ui on the page you may::
+    {% include 'points/jqueryui_add_form.html' %}
+
+Now, instead of loading the points_add form,
+clicking on the rendered link will give a jquery-ui dialog to the form widget.
+
+Issues
+------
 
 **Note for pinax users and those using django-uni-form**
 This css rule must be removed from uni-form-generic.css (or over-ridden)
@@ -73,5 +84,4 @@ Don't fret, run::
 
     $ ./manage.py sqlall
 
-Get the output of this into your database shell.
-	
+Get the output of this into your database shell.	

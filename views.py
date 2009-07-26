@@ -178,6 +178,7 @@ def add(request, app_label, model_name, id):
         form = PointForm()
 
     context = {'form':form, 'object':obj, 'content_type':ct, }
+    context.update(locals())
 
     return render_to_response('points/add.html', context,\
             context_instance = RequestContext(request))

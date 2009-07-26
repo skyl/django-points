@@ -1,9 +1,11 @@
 
 <a href="{% url points_add app_label=app_label model_name=model_name id=model_instance.id %}"
   {% if css_class %}
-    class="{{css_class}}"    
+    class="{{css_class}} add-point"    
   {% endif %}
->Tag a Geographic point to {{model_instance}}
+  >Tag a Geographic point
 </a>
+<img style="display:none;" class='loading' src='/media/points/img/ajax-loader.gif'>
+</img>
 
 

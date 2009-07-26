@@ -1,0 +1,30 @@
+{{points_form_media}}
+
+<script>
+    $(function() {
+        $('a.add-point').click(function(ev) {
+            var hiddenLink = $(this).hide();
+            $(this).next('img.loading').show();
+            ev.stopPropagation();
+            ev.preventDefault();
+            var href = $(this).attr("href");
+            var dia = $('<div/>');
+
+            dia.load( href + " #edit-point", null, function(){
+                var title = "Add point";
+                dia.dialog({
+                    width:650, height:600, maxHeight:1200, dialogClass:'dialog', position:[0,92], 
+                    show:'slide', hide: 'slide', title:title,
+                    open: function() { 
+                        hiddenLink.show();
+                        $('img.loading').hide(); 
+                        map = new olwidget.Map("id_point", {"layers": ["osm.mapnik"], "name": "point"});
+                    },
+                    beforeclose: function() { 
+                        dia.remove();
+                    }
+                });
+            });
+        });
+    });
+</script>
