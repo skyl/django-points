@@ -14,6 +14,13 @@ Installation
     * add 'points' to INSTALLED_APPS
     * add "points.context_processors.ol_media" to your context_procs in settings
       alternately, add the context processor on a perview basis.
+    * add "points.context_processors.GAK" to your context_procs, this will provide your
+      template (see GOOGLE_API_KEY below) with a {{GAK}} variable for you jsapi key.
+      
+        # FIXME is Google basically required now?  I should make it so that the whole thing works
+        without the google maps api, with openlayers alone and the make the google implementation
+        gravy.  Getting a little ahead of myself with google.hybrid everywhere.
+
     * syncdb
     * makes sure that your site_name is correct in the db
     * put (r'^points/', include('points.urls')), in main urlconf
@@ -22,6 +29,7 @@ Installation
       'ABQIAAAABH87p-yQOJj-sh06NusQiRTpH3CbXHjuCVmaTc5MkkU4wO1RRhTdrjDBgVDitkd2sidQwpIj12NE2w'
       to your settings.py to use the GOOGLE_MAPS_API for 127.0.0.1:8000 or get your own:
       http://code.google.com/apis/maps/signup.html
+      Actually, legally, go click read their terms if you want to use their service.
 
 Requirements
 ------------
@@ -70,6 +78,26 @@ Additionally, if you have jQuery and jq-ui on the page you may (in the head of y
 
 Now, instead of requesting the points_add form url,
 clicking on the rendered link will give a jquery-ui dialog to the form widget.
+
+To show the latest map added to an object you will need the following on you page in the order
+
+    * In head::
+
+        {% load point_tags %}
+        <script src="http://www.google.com/jsapi?key={{GAK}}" type="text/javascript"></script>
+        {% show_google_map model_instance "css_id" %}
+
+    * In body::
+
+        <div id="css_id" style="{width:CHOOSE; height:CHOOSE;"></div>
+
+{% load point_tags %} gives you access to the tag, show_google_map.
+The google jsapi must be present on the page with the key (see installation)
+model_instance is the instance that you want to tag such as "tribe" or "topic" or "user".
+css_id is a string, the id of the DOM element that will contain the map.
+Then, in the body we place the map div with our desired width and height
+other style may be added here or factored out into a stylesheet.
+Other strategies such as creating the div with javascript are possible.
 
 Issues
 ------

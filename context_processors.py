@@ -6,24 +6,19 @@ def ol_media(request):
     '''provides the media for an olwidget for maps data being dyn-ajax
 
     '''
-
-    custom = '''
-    <style>
-        div#id_point_map { clear:both; }
-    </style>
-
-    <script>
-        $(function () {
-            $('form#edit-point').submit( function() {
-                $('input#id_zoom').val(map.map.getZoom());
-            });
-        });
-    </script>
-    '''
-
-    string = form.media.render() #+ custom
+    string = form.media.render()
 
     return {
-            'points_form_media': string,
+        'points_form_media': string,
+    }
 
-            }
+def GAK(request):
+    ''' Provides settings.GOOGLE_API_KEY as GAK
+
+    '''
+
+    from django.conf import settings
+    GAK = settings.GOOGLE_API_KEY
+    return {
+            'GAK': GAK
+    }
