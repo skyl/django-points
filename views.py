@@ -25,7 +25,11 @@ def list(request, app_label=None, model_name=None, id=None, ):
 
     if not id and not model_name and not app_label:
         points = Point.objects.all()
-        map = MapDisplay( fields=[p.point for p in points], )
+        map = MapDisplay( fields=[p.point for p in points],
+                map_options = {
+                    'map_style':{'width':'100%', 'height':'550px',},
+                }
+        )
         context = { 'map':map, }
 
     elif id and model_name and app_label:
