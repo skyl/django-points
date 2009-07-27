@@ -177,8 +177,14 @@ def add(request, app_label, model_name, id):
         if form.is_valid():
             form.save()
 
+            #try:
+            #    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+            #except:
+
             try:
                 return HttpResponseRedirect(obj.get_absolute_url())
+
             except:
                 return HttpResponseRedirect(reverse('points_list'))
 

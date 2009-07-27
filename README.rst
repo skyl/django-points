@@ -90,6 +90,10 @@ Somewhere near the top of the document::
 
 In head::
 
+    {# FIXME ... I didn't think this had to be there
+    {# if you have include 'points/jqueryui_add_form.html' for the ajax, you don't need this:
+    {{ point_form_media }}
+
     {% show_ol_media model_instance %}
 
 To place the map in the body::

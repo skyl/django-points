@@ -40,6 +40,7 @@ def show_google_map(model_instance, css_id="default-map"):
 def show_ol_map(model_instance):
     ''' Takes a model instance and returns display of all points html
 
+    {% show_ol_map model_instance %}
     '''
     ct = ContentType.objects.get_for_model(model_instance)
     obj_id = model_instance.id
