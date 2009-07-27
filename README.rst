@@ -135,12 +135,13 @@ In body::
     <div id="css_id" style="width:CHOOSE; height:CHOOSE;"></div>
 
 {% load point_tags %} gives you access to the tag, show_google_map.
-The google jsapi must be present on the page with the key (see installation)
-model_instance is the instance that you want to tag such as "tribe" or "topic" or "user".
-css_id is a string, the id of the DOM element that will contain the map.
-Then, in the body we place the map div with our desired width and height
-other style may be added here or factored out into a stylesheet.
-Other strategies such as creating the div with javascript are possible.
+
+  * The google jsapi must be present on the page with the key (see installation)
+  * model_instance is the instance that you want to tag such as "tribe" or "topic" or "user".
+  * css_id is a string, the id of the DOM element that will contain the map.
+  * Then, in the body we place the map div with our desired width and height
+  * other style may be added here or factored out into a stylesheet.
+  * Other strategies such as creating the div with javascript are possible.
 
 Issues
 ------
