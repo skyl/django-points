@@ -14,22 +14,18 @@ Installation
     * add 'points' to INSTALLED_APPS
     * add "points.context_processors.ol_media" to your context_procs in settings
       alternately, add the context processor on a perview basis.
-    * add "points.context_processors.GAK" to your context_procs, this will provide your
+    * (optional) add "points.context_processors.GAK" to your context_procs, this will provide your
       template (see GOOGLE_API_KEY below) with a {{GAK}} variable for you jsapi key.
-      
-        # FIXME is Google basically required now?  I should make it so that the whole thing works
-        without the google maps api, with openlayers alone and the make the google implementation
-        gravy.  Getting a little ahead of myself with google.hybrid everywhere.
 
     * syncdb
     * makes sure that your site_name is correct in the db
     * put (r'^points/', include('points.urls')), in main urlconf
-    * add
+    * (optional) add
       GOOGLE_API_KEY = 
       'ABQIAAAABH87p-yQOJj-sh06NusQiRTpH3CbXHjuCVmaTc5MkkU4wO1RRhTdrjDBgVDitkd2sidQwpIj12NE2w'
       to your settings.py to use the GOOGLE_MAPS_API for 127.0.0.1:8000 or get your own:
       http://code.google.com/apis/maps/signup.html
-      Actually, legally, go click read their terms if you want to use their service.
+      Actually, legally, go read and click their terms if you want to use their service.
 
 Requirements
 ------------
