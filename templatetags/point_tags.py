@@ -48,7 +48,7 @@ def show_ol_map(model_instance):
 
     map = MapDisplay( fields=[p.point for p in points],
             map_options = {
-                    'map_style':{'width':'260px', 'height':'180px',},
+                    'map_style':{'width':'240px', 'height':'160px',},
                     'layers': ['osm.mapnik',],
             }
     )

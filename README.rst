@@ -79,17 +79,52 @@ Additionally, if you have jQuery and jq-ui on the page you may (in the head of y
 Now, instead of requesting the points_add form url,
 clicking on the rendered link will give a jquery-ui dialog to the form widget.
 
-To show the latest map added to an object you will need the following on you page in the order
+Open Layers
++++++++++++
 
-    * In head::
+To display a simple olwidget street map
+with all of the points that are attached to a certain model instance object
+pass that model instance to show_ol_media in <head> and show_ol_map where you would like to place the map in the body.
 
-        {% load point_tags %}
-        <script src="http://www.google.com/jsapi?key={{GAK}}" type="text/javascript"></script>
-        {% show_google_map model_instance "css_id" %}
+Somewhere near the top of the document::
+    {% load point_tags %}
 
-    * In body::
+In head::
+    {% show_ol_media model_instance %}
 
-        <div id="css_id" style="{width:CHOOSE; height:CHOOSE;"></div>
+To place the map in the body::
+    {% show_ol_map model_instance %}
+
+There will be more options to pass to these such as height and width.  
+Currently, these are easy to change by hacking the map attr of point_tags.show_ol_map
+
+Help me implement some event-handlers!
+
+
+Google
+++++++
+
+If you would like more layers in the dialog widget form you can add to the layers list in::
+    jqueryui_add_form.html
+
+For instance, you could apply::
+    "layers": ["google.hybrid", "osm.mapnik"],
+
+With that you should default to google.hybrid and have the choice of open street maps.
+
+To show the latest map tagged to an object you will need the following on you page in the order
+
+Don't forget::
+    {% load point_tags %}
+
+In head::
+
+    <script src="http://www.google.com/jsapi?key={{GAK}}" type="text/javascript"></script>
+    {% show_google_map model_instance "css_id" %}
+
+In body::
+
+    <div id="css_id" style="{width:CHOOSE; height:CHOOSE;"></div>
 
 {% load point_tags %} gives you access to the tag, show_google_map.
 The google jsapi must be present on the page with the key (see installation)
