@@ -132,7 +132,7 @@ In head::
 
 In body::
 
-    <div id="css_id" style="{width:CHOOSE; height:CHOOSE;"></div>
+    <div id="css_id" style="width:CHOOSE; height:CHOOSE;"></div>
 
 {% load point_tags %} gives you access to the tag, show_google_map.
 The google jsapi must be present on the page with the key (see installation)
