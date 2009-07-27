@@ -4,7 +4,7 @@ django-points
 
 A reusable app for tagging geographic location(s) to any model instance.
 
-Building for pinax-compliance and flexible, powerful API.
+Building for pinax-compliance, reusability, abstraction.
 
 Installation
 ------------
