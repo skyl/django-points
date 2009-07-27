@@ -70,10 +70,12 @@ You now have access to the following urls:
     url(r'add/(?P<app_label>[-\w]+)/(?P<model_name>[-\w]+)/(?P<id>\d+)/$', view='points.views.add', name='points_add'),
 
 You can add a link to the "points_add" for any model instance using the add_point_link inclusion tag::
+
     {% load point_tags %}
     {% add_point_link model_instance css_class %}
 
 Additionally, if you have jQuery and jq-ui on the page you may (in the head of your html document)::
+
     {% include 'points/jqueryui_add_form.html' %}
 
 Now, instead of requesting the points_add form url,
@@ -87,12 +89,15 @@ with all of the points that are attached to a certain model instance object
 pass that model instance to show_ol_media in <head> and show_ol_map where you would like to place the map in the body.
 
 Somewhere near the top of the document::
+
     {% load point_tags %}
 
 In head::
+
     {% show_ol_media model_instance %}
 
 To place the map in the body::
+
     {% show_ol_map model_instance %}
 
 There will be more options to pass to these such as height and width.  
@@ -105,9 +110,11 @@ Google
 ++++++
 
 If you would like more layers in the dialog widget form you can add to the layers list in::
+
     jqueryui_add_form.html
 
 For instance, you could apply::
+
     "layers": ["google.hybrid", "osm.mapnik"],
 
 With that you should default to google.hybrid and have the choice of open street maps.
@@ -115,6 +122,7 @@ With that you should default to google.hybrid and have the choice of open street
 To show the latest map tagged to an object you will need the following on you page in the order
 
 Don't forget::
+
     {% load point_tags %}
 
 In head::
