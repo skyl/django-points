@@ -127,8 +127,15 @@ For instance, to add the NASA global mosaic layer you may simply add::
     });
     </script>
  
-The openlayers API is very powerful.  Read about it, http://openlayers.org/
+The openlayers API is very powerful.  Read about it, http://openlayers.org/, contribute.
 
+You can get the latest point for each member of a queryset using the familiar pattern:
+
+in head::
+    {% latest_for_queryset_media queryset %}
+
+in body::
+    {% latest_for_queryset_map queryset %}
 
 Google
 ++++++
@@ -169,9 +176,27 @@ In body::
   * other style may be added here or factored out into a stylesheet.
   * Other strategies such as creating the div with javascript are possible.
 
-**NEW** .. to see all of the points associated with the object use::
+To see all of the points associated with the object use::
 
     {% show_google_all model_instance "css_id" %}
+
+You can also get the latest map for each member of a queryset::
+
+Show the latest point for each member of a queryset::
+
+    In head
+
+        {% latest_for_queryset_google queryset "css_id" %}
+
+    In body something like
+
+        <div id="css_id" style="width:100%; height:300px;"></div>
+
+**NEW :P** Show all the points owned by a user with the similar pattern::
+
+    {% google_show_points_owned_by user "css_id" %}
+    <div id="css_id" style="width:100%; height:300px;"></div>
+    
 
 Issues
 ------
