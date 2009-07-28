@@ -21,10 +21,16 @@
                         hiddenLink.show();
                         $('img.loading').hide(); 
                         map = new olwidget.Map("id_point", {
-                            "layers": ["osm.mapnik",], 
+                            "layers": ["google.hybrid", "osm.mapnik",], 
                             "name": "point",
                             "default_zoom":1,
                         });
+                        
+                        var jpl_wms = new OpenLayers.Layer.WMS( "NASA Global Mosaic",
+                            "http://t1.hypercube.telascience.org/cgi-bin/landsat7",
+                            {layers: "landsat7"});
+
+                        map.map.addLayer(jpl_wms);
 
                         $('form#edit-point').submit( function() {
                             $('input#id_zoom').val(map.map.getZoom());
@@ -40,6 +46,7 @@
         });
     });
 </script>
+
 
 
 {{points_form_media}}
