@@ -23,6 +23,8 @@ def list(request, app_label=None, model_name=None, id=None, ):
     logic might be wetter still FIXME?
     '''
 
+    # FIXME, I think this could be DRYed out a bit; experimental overloading of the
+    # view might not be the coolest thing.
     if not id and not model_name and not app_label:
         points = Point.objects.all()
         map = MapDisplay( fields=[p.point for p in points],
@@ -37,42 +39,46 @@ def list(request, app_label=None, model_name=None, id=None, ):
             ct = ContentType.objects.get(\
                     app_label = app_label,
                     model = model_name)
-
             obj = ct.get_object_for_this_type( id=id )
 
-            points = Point.objects.filter( content_object=obj )
-
         except:
-
             return HttpResponseRedirect(reverse('points_list'))
 
-        points = Point.objects.filter(content_object = obj)
-        context = {'points':points, 'object':obj, 'content_type':ct, }
+
+        points = Point.objects.filter( content_type=ct, object_id=id )
+        map = MapDisplay( fields=[p.point for p in points],
+                map_options = {
+                    'map_style':{'width':'100%', 'height':'550px',},
+                }
+        )
+
+        context = {'points':points, 'object':obj, 'content_type':ct, 'map':map, }
+        return render_to_response('points/all.html', context,\
+                context_instance=RequestContext(request))
 
     elif app_label and model_name and not id:
         try:
             ct = ContentType.objects.get(\
-                    app_label = point.content_type.app_label,
-                    model = point.content_type.model)
+                    app_label = app_label,
+                    model = model_name)
+
         except:
-            # FIXME, does this look good?  In need of a convention...
-            # and, this could be a bit more DRY?
             return HttpResponseRedirect(reverse('points_list'))
 
         points = Point.objects.filter(content_type = ct)
-        context = {'points':points, 'content_type':ct, }
+        map = MapDisplay( fields=[p.point for p in points],
+                map_options = {
+                    'map_style':{'width':'100%', 'height':'550px',},
+                }
+        )
+        context = {'points':points, 'content_type':ct, 'map':map,}
+
+        return render_to_response('points/all.html', context,\
+                context_instance=RequestContext(request))
 
     else:
-
         return HttpResponseNotFound()
 
-
-    #if request.is_ajax():
-    #    return HttpResponse(serializers.serialize("json",points),\
-    #            mimetype='application/javascript')
-
-    return render_to_response('points/all.html', context,\
-                context_instance=RequestContext(request))
 
 def detail(request, id):
     ''' Responds with the point and related object information
