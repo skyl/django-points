@@ -18,13 +18,23 @@ with the css_id for the div to have the map.
                                          google.loader.ClientLocation.longitude
                 );
                 
-                Gmap.setCenter(center, 3);
-                
+                Gmap.setCenter(center, 1);
+                {% if points %}                
                 {% for p in points %}
-                    var m = new GLatLng({{p.point.tuple.1}}, {{p.point.tuple.0}});
-                    var marker = new GMarker(m, {draggable: false});
-                    Gmap.addOverlay(marker);
+                // FIXME FEATURES! how do you get options in there?
+                // http://code.google.com/apis/maps/documentation/reference.html#GInfoWindowOptions
+                var m = new GLatLng({{p.point.tuple.1}}, {{p.point.tuple.0}});
+                var marker = new GMarker(m, {draggable: false});
+
+                GEvent.addListener(marker, "click", function() {
+                    var myHtml = "<a href='{{p.content_object.get_absolute_url}}'>{{p.content_object}}</a>";
+                    Gmap.openInfoWindowHtml(m, myHtml);
+                });
+
+                Gmap.addOverlay(marker);
+                console.log('{{p.content_object}}, {{p.content_object.get_absolute_url}}');
                 {% endfor %}
+                {% endif %}
 
                 //map.setCenter(new google.maps.LatLng(37.4419, -122.1419), 13);
                 //var searchControl = new google.search.SearchControl();
