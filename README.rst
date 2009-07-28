@@ -82,17 +82,14 @@ Open Layers
 
 To display a simple olwidget street map
 with all of the points that are attached to a certain model instance object
-pass that model instance to show_ol_media in <head> and show_ol_map where you would like to place the map in the body.
+pass that model instance to show_ol_media in <head> and 
+show_ol_map where you would like to place the map in the body.
 
 Somewhere near the top of the document::
 
     {% load point_tags %}
 
 In head::
-
-    {# FIXME ... I didn't think this had to be there
-    {# if you have include 'points/jqueryui_add_form.html' for the ajax, you don't need this:
-    {{ points_form_media }}
 
     {% show_ol_media model_instance %}
 
