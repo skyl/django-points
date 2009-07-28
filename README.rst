@@ -182,8 +182,6 @@ To see all of the points associated with the object use::
 
     {% show_google_all model_instance "css_id" %}
 
-You can also get the latest map for each member of a queryset::
-
 Show the latest point for each member of a queryset::
 
     In head
