@@ -2,6 +2,8 @@
 
 {% block extra_head %}
 {{map.media}}
+
+{% comment %}
 <script>
     $(function() {
         var NASAwms = new OpenLayers.Layer.WMS( "NASA WMS",
@@ -9,13 +11,12 @@
                     {layers: 'BMNG',format: 'image/png'},
                     {isBaseLayer: true});
 
-            map.addLayer(NASAwms);
-            map.zoomToMaxExtent();
+            map.map.addLayer(NASAwms);
+            map.map.zoomToMaxExtent();
     });
-<script>
-
-
 </script>
+{% endcomment %}
+
 {% endblock %}
 
 {% block body %}
