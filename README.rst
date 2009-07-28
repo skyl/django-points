@@ -129,12 +129,14 @@ For instance, to add the NASA global mosaic layer you may simply add::
  
 The openlayers API is very powerful.  Read about it, http://openlayers.org/, contribute.
 
-You can get the latest point for each member of a queryset using the familiar pattern:
+You can get the latest point for each member of a queryset using the familiar pattern.
 
 in head::
+
     {% latest_for_queryset_media queryset %}
 
 in body::
+
     {% latest_for_queryset_map queryset %}
 
 Google
