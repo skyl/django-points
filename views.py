@@ -33,6 +33,8 @@ def list(request, app_label=None, model_name=None, id=None, ):
                 }
         )
         context = { 'map':map, }
+        return render_to_response('points/all.html', context,\
+                context_instance=RequestContext(request))
 
     elif id and model_name and app_label:
         try:
