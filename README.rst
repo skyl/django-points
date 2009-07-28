@@ -100,7 +100,34 @@ To place the map in the body::
 There will be more options to pass to these such as height and width.  
 Currently, these are easy to change by hacking the map attr of point_tags.show_ol_map
 
+If you would like the same map but with only the single latest point added to the model,
+you may, in head::
+    
+    {% show_latest_point_ol_media model_instance %}
+
+and, in body::
+
+    {% show_latest_point_ol model_instance %}    
+
 Help me implement some event-handlers!
+
+You can try out new functionality with you map object in javascript.  
+After {% show_ol_media model_instance %} in head 
+you may use the map object.
+For instance, to add the NASA global mosaic layer you may simply add::
+
+   <script>
+    $(function() {
+        var jpl_wms = new OpenLayers.Layer.WMS( "NASA Global Mosaic",
+                "http://t1.hypercube.telascience.org/cgi-bin/landsat7",
+                {layers: "landsat7"});
+   
+        map.map.addLayer(jpl_wms); 
+
+    });
+    </script>
+ 
+The openlayers API is very powerful.  Read about it, http://openlayers.org/
 
 
 Google
@@ -116,7 +143,8 @@ For instance, you could apply::
 
 With that you should default to google.hybrid and have the choice of open street maps.
 
-To show the latest map tagged to an object you will need the following on you page in the order
+To show the latest map tagged to an object you will need the following on your page, 
+in the following order.
 
 Don't forget::
 
@@ -124,6 +152,7 @@ Don't forget::
 
 In head::
 
+    {# if you do not already have the google maps js api on the page #}
     <script src="http://www.google.com/jsapi?key={{GAK}}" type="text/javascript"></script>
     {% show_google_map model_instance "css_id" %}
 
@@ -134,11 +163,15 @@ In body::
 {% load point_tags %} gives you access to the tag, show_google_map.
 
   * The google jsapi must be present on the page with the key (see installation)
-  * model_instance is the instance that you want to tag such as "tribe" or "topic" or "user".
+  * model_instance is the instance that you want to show the related points for.
   * css_id is a string, the id of the DOM element that will contain the map.
   * Then, in the body we place the map div with our desired width and height
   * other style may be added here or factored out into a stylesheet.
   * Other strategies such as creating the div with javascript are possible.
+
+**NEW** .. to see all of the points associated with the object use::
+
+    {% show_google_all model_instance "css_id" %}
 
 Issues
 ------

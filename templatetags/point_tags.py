@@ -18,11 +18,11 @@ def add_point_link(model_instance, css_class="add-point"):
 
     return locals()
 
-@register.inclusion_tag('points/show_google_map.html')
+@register.inclusion_tag('points/show_google_map_single.html')
 def show_google_map(model_instance, css_id="default-map"):
     ''' Turn a DOM element into a map using the google API
 
-    {% show_google_map model_instance css_id%}
+    {% show_google_map model_instance css_id %}
     Note that this returns the *latest* point that has been
     added to the model instance.
     '''
@@ -35,6 +35,26 @@ def show_google_map(model_instance, css_id="default-map"):
         return None
 
     return locals()
+
+@register.inclusion_tag('points/show_google_map_multi.html')
+def show_google_all(model_instance, css_id="default-map"):
+    ''' Shows all points given a model_instance
+
+    {% show_google_all model_instance css_id %}
+    '''
+
+    # FIXME, we should factor out some of this wet-ness
+    ct = ContentType.objects.get_for_model(model_instance)
+    obj_id = model_instance.id
+
+    if Point.objects.filter(content_type = ct, object_id=obj_id):
+        points = Point.objects.filter(content_type = ct, object_id=obj_id)
+    else:
+        return None
+
+    return locals()
+
+
 
 @register.inclusion_tag('points/show_ol_map.html')
 def show_ol_map(model_instance):
@@ -64,3 +84,34 @@ def show_ol_media(model_instance):
     '''
     r = show_ol_map(model_instance)
     return r
+
+@register.inclusion_tag('points/show_ol_map.html')
+def show_latest_point_ol(model_instance):
+    ''' Takes model instance and displays the latest point
+
+    '''
+
+    ct = ContentType.objects.get_for_model(model_instance)
+    obj_id = model_instance.id
+
+    if Point.objects.filter(content_type = ct, object_id=obj_id):
+        point = Point.objects.filter(content_type = ct, object_id=obj_id)[0]
+
+    map = MapDisplay( fields=[ point.point,],
+            map_options = {
+                    'map_style':{'width':'240px', 'height':'160px',},
+                    'layers': ['osm.mapnik','google.hybrid'],
+            }
+    )
+
+    return locals()
+
+@register.inclusion_tag('points/show_ol_media.html')
+def show_latest_point_ol_media(model_instance):
+    r = show_ol_map(model_instance)
+    return r
+
+
+#@register.inclusion_tag('
+
+

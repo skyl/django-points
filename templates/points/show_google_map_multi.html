@@ -1,0 +1,41 @@
+{% comment %}
+
+{% show_google_map point css_id %}
+the template_tag, show_google_map take a point object and renders it here
+with the css_id for the div to have the map.
+
+{% endcomment %}
+
+    <script type="text/javascript">
+        google.load("maps", "2");
+
+        function initialize() {
+            if (GBrowserIsCompatible()){
+
+                var Gmap = new google.maps.Map2(document.getElementById("{{css_id}}"));
+                
+                var center = new GLatLng(google.loader.ClientLocation.latitude,
+                                         google.loader.ClientLocation.longitude
+                );
+                
+                Gmap.setCenter(center, 3);
+                
+                {% for p in points %}
+                    var m = new GLatLng({{p.point.tuple.1}}, {{p.point.tuple.0}});
+                    var marker = new GMarker(m, {draggable: false});
+                    Gmap.addOverlay(marker);
+                {% endfor %}
+
+                //map.setCenter(new google.maps.LatLng(37.4419, -122.1419), 13);
+                //var searchControl = new google.search.SearchControl();
+                //searchControl.addSearcher(new google.search.WebSearch());
+                //searchControl.addSearcher(new google.search.NewsSearch());
+                //searchControl.draw(document.getElementById("searchcontrol"));
+                Gmap.setMapType(G_SATELLITE_MAP);
+                Gmap.addControl(new GSmallMapControl());
+                Gmap.addControl(new GMapTypeControl());
+            }
+        }
+        google.setOnLoadCallback(initialize);   
+        
+    </script>
