@@ -1,0 +1,52 @@
+
+
+<script>
+    //FIXME this.parentNode is null when closing the dialog
+    $(function() {
+        $('a.add-point').live('click', function(ev) {
+            var hiddenLink = $(this).hide();
+            $(this).next('img.loading').show();
+            ev.stopPropagation();
+            ev.preventDefault();
+            var href = $(this).attr("href");
+            var dia = $('<div/>');
+
+            dia.load( href + " #edit-point", null, function(){
+                var title = "Add point";
+                dia.dialog({
+                    width:650, height:525, maxHeight:1200, dialogClass:'dialog', position:['right','bottom'], 
+                    show:'slide', hide: 'slide', title:title, draggable:false, resizeable:false, 
+
+                    open: function() { 
+                        hiddenLink.show();
+                        $('img.loading').hide(); 
+                        map = new olwidget.Map("id_point", {
+                            "layers": ["google.hybrid",], 
+                            "name": "point",
+                            "default_zoom":1,
+                        });
+                        
+                        var jpl_wms = new OpenLayers.Layer.WMS( "NASA Global Mosaic",
+                            "http://t1.hypercube.telascience.org/cgi-bin/landsat7",
+                            {layers: "landsat7"});
+
+                        map.map.addLayer(jpl_wms);
+
+                        $('form#edit-point').submit( function() {
+                            $('input#id_zoom').val(map.map.getZoom());
+                        });
+
+                    },
+                    beforeclose: function() { 
+                        dia.empty();
+                        dia.remove();
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+
+
+{{points_form_media}}

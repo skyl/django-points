@@ -1,0 +1,15 @@
+div#div_id_zoom, div#div_id_owner, div#div_id_content_type,
+div#div_id_object_id {
+    display:none;
+}
+
+div.ui-dialog-titlebar {
+    text-align:center;
+}
+
+div#id_point_map {
+    clear:both;
+}
+
+
+

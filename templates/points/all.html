@@ -1,8 +1,82 @@
-{% extends 'points/base.html' %}
-{% block body %}
-{% for p in points %}
+{% extends "points/base.html" %}
 
-{{p.id}}: {{p.owner}}, {{p.owner.get_absolute_url}}, {{p.point}} <br>
-{% endfor %}
+{% load i18n %}
+{% load pagination_tags %}
+{% load avatar_tags %}
+{% load humanize %}
+{% load profile_tags %}
+
+{% block head_title %}{% blocktrans %}Profiles map{% endblocktrans %}{% endblock %}
+
+{% block extra_head %}
+   <script type="text/javascript" src="http://www.google.com/jsapi?key={{GAK}}"></script>
+
+    <script type="text/javascript">
+        google.load("maps", "2");
+        //google.load("search", "1");
+        // Call this function when the page has been loaded
+        function initialize() {
+            if (GBrowserIsCompatible()){
+                    var map = new google.maps.Map2(document.getElementById("map"));
+                    
+                    var center = new GLatLng(0,0);
+                    map.setCenter(center, 2);
+
+
+                    var point;
+                    var marker;
+                    {% for p in points %}
+                    point = new GLatLng({{p.point.tuple.1}}, {{p.point.tuple.0}});
+                    marker = new GMarker(point, {draggable: false});
+                    GEvent.addListener(marker, "click", function() {
+                        var myHtml = "<a href='{{p.content_object.get_absolute_url}}'> {{p.content_object}}</a>";
+                        clickPoint = new GLatLng({{p.point.tuple.1}}, {{p.point.tuple.0}});
+                        map.openInfoWindowHtml(clickPoint, myHtml);
+                        //console.log("{{p.point.tuple.1}}");
+                    });
+                    
+                    map.addOverlay(marker);
+                    {% endfor %}
+                    map.setMapType(G_SATELLITE_MAP);
+                    map.addControl(new GSmallMapControl());
+                    map.addControl(new GMapTypeControl());
+
+
+                    //map.setCenter(new google.maps.LatLng(37.4419, -122.1419), 13);
+                    //var searchControl = new google.search.SearchControl();
+                    //searchControl.addSearcher(new google.search.WebSearch());
+                    //searchControl.addSearcher(new google.search.NewsSearch());
+                    //searchControl.draw(document.getElementById("searchcontrol"));
+            }
+        }
+        google.setOnLoadCallback(initialize);   
+        
+    </script>
+
 
 {% endblock %}
+
+
+{% block body %}
+    <h1>{% trans "All Points" %}</h1>
+
+{% comment %}
+    <form method="GET" action="">
+        <input type="text" name="search" value="{{ search_terms }}" />
+        <input type="submit" value="Search" />
+        {% if search_terms %}
+            <a href="{% clear_search_url request %}">Clear Search Terms</a>
+        {% endif %}
+    </form>
+{% endcomment %}
+
+
+<div id="map" style="width:90%; height:550px; margin: 2em auto;">
+</div>
+
+<div id="map-description" style="text-align:center;">
+Use the standard controls to navigate the map.  Double-clicking will zoom where you click.  Click on a marker for more information.
+</div>
+
+{% endblock %}
+

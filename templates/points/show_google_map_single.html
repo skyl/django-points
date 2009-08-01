@@ -1,0 +1,44 @@
+{% comment %}
+
+{% show_google_map point css_id %}
+the template_tag, show_google_map take a point object and renders it here
+with the css_id for the div to have the map.
+
+{% endcomment %}
+
+    <script type="text/javascript">
+        google.load("maps", "2");
+        //google.load("search", "1");
+        // Call this function when the page has been loaded
+
+        //$(function() { console.log(google.loader.ClientLocation.latitude); });
+
+        function initialize() {
+            if (GBrowserIsCompatible()){
+
+                var Gmap = new google.maps.Map2(document.getElementById("{{css_id}}"));
+                
+                {% if point %}
+                var center = new GLatLng({{point.point.tuple.1}},{{point.point.tuple.0}});
+
+                {% if point.zoom %}
+                Gmap.setCenter(center, {{point.zoom}});
+                {% else %}
+                Gmap.setCenter(center, 3);
+                {% endif %}
+
+                var marker = new GMarker(center, {draggable: false});
+                Gmap.addOverlay(marker);
+                {% endif %}
+                //map.setCenter(new google.maps.LatLng(37.4419, -122.1419), 13);
+                //var searchControl = new google.search.SearchControl();
+                //searchControl.addSearcher(new google.search.WebSearch());
+                //searchControl.addSearcher(new google.search.NewsSearch());
+                //searchControl.draw(document.getElementById("searchcontrol"));
+                Gmap.setMapType(G_SATELLITE_MAP);
+                Gmap.addControl(new GSmallMapControl());
+                Gmap.addControl(new GMapTypeControl());
+            }
+        }
+        google.setOnLoadCallback(initialize);   
+    </script>

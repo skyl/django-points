@@ -1,7 +1,19 @@
 {% extends 'points/base.html' %}
+
+{% block extra_head %}
+{{map.media}}
+
+{% if point.zoom %}
+<script>
+    
+    $(function() {
+        map.map.zoomTo({{point.zoom}});
+    });
+</script>
+{% endif %}
+
+{% endblock %}
+
 {% block body %}
-{% for p in point %}
-{{p.id}}  {{p.owner.get_absolute_url}};<br>
-{{object}}, {{object.get_absolute_url}}
-{% endfor %}
+{{map}}
 {% endblock %}

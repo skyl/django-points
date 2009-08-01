@@ -1,31 +1,58 @@
-=============
-django-points
-=============
 
-A reusable app for tagging 1 or more geographic location to any model instance.
+Requirements
+============
 
-Building for pinax-compliance and convenient JSON API.
+* GeoDjango
+* olwidget
+* pinax 0.7b3 or later
+* jQuery and jQuery-UI
 
 Installation
-  * check out the source as points (rather than django-point)
-    alternately, just mv the directory.
-  * put the dir on your pythonpath
-  * add 'points' to INSTALLED_APPS
+============
+
+settings
+--------
+
+  * put 'points' into INSTALLED_APPS
+  * add to context processors::
+
+    'points.context_processors.ol_media',
+    'points.context_processors.GAK',
+
+  * Get http://code.google.com/apis/maps/signup.html
+    a GOOGLE_MAPS_API key and add it to settings::
+
+    GOOGLE_API_KEY = 'ABQIAAAABH87p-yQOJj-sh06NusQiRTpH3CbXHjuCVmaTc5MkkU4wO1RRhTdrjDBgVDitkd2sidQwpIj12NE2w'
+
   * syncdb
-  * makes sure that your site_name is correct in the db
-  * put (r'^points/', include('points.urls')), in main urlconf
-  * requires olwidget and django.contrib.contenttypes (installed by default)
 
-  **Note for pinax users and those using django-uni-form**
-  This css rule when rendering \{\{form\|as_uni_form\}\}::
+urls
+----
 
-	    .uniForm .inlineLabels label,
-	    .uniform .inlineLabels .label{ float: left; margin: 0; padding: 0; line-height: 100%; position: relative; }
+  * add to your url patterns::
 
-  Must be removed from uni-form-generic.css (or over-ridden)
-  for the open layers form widget to work (olwidget).
+    (r'^points/', include('points.urls')),
 
+QuickStart
+==========
 
-	
+* At the top of the template::
+
+  {% load point_tags %}
+
+* In head you could put::
+
+  {% include 'points/jqueryui_add_form.html' %}
+  {% show_google_map model_instance "map-id" %}
+
+* In body, where you would like the link to the form widget to go::
+
+  {% add_point_link model_instance %}
+
+* Where you would like the map to go you might put::
+  
+  <div id="map-id" style="width:45%; height:200px; float:right;"></div>
+
+For more information check docs/api.rst; there are many more options and tags.
 
 
