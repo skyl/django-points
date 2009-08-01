@@ -32,7 +32,11 @@ def list(request, app_label=None, model_name=None, id=None, ):
                     'map_style':{'width':'100%', 'height':'550px',},
                 }
         )
+<<<<<<< HEAD:views.py
         context = { 'map':map,'points':points, }
+=======
+        context = { 'map':map, }
+>>>>>>> 85aa454b525ab44dcdc1719f07e7faac655cad28:views.py
         return render_to_response('points/all.html', context,\
                 context_instance=RequestContext(request))
 

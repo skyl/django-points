@@ -1,3 +1,9 @@
+<<<<<<< HEAD:README.rst
+=======
+-----------
+QUICK START
+-----------
+>>>>>>> 85aa454b525ab44dcdc1719f07e7faac655cad28:README.rst
 
 Requirements
 ============
@@ -11,7 +17,10 @@ Installation
 ============
 
 settings
+<<<<<<< HEAD:README.rst
 --------
+=======
+>>>>>>> 85aa454b525ab44dcdc1719f07e7faac655cad28:README.rst
 
   * put 'points' into INSTALLED_APPS
   * add to context processors::
@@ -20,14 +29,21 @@ settings
     'points.context_processors.GAK',
 
   * Get http://code.google.com/apis/maps/signup.html
+<<<<<<< HEAD:README.rst
     a GOOGLE_MAPS_API key and add it to settings::
+=======
+    a GOOGLE_MAPS_API key and the add it to settings::
+>>>>>>> 85aa454b525ab44dcdc1719f07e7faac655cad28:README.rst
 
     GOOGLE_API_KEY = 'ABQIAAAABH87p-yQOJj-sh06NusQiRTpH3CbXHjuCVmaTc5MkkU4wO1RRhTdrjDBgVDitkd2sidQwpIj12NE2w'
 
   * syncdb
 
 urls
+<<<<<<< HEAD:README.rst
 ----
+=======
+>>>>>>> 85aa454b525ab44dcdc1719f07e7faac655cad28:README.rst
 
   * add to your url patterns::
 
