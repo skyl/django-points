@@ -22,7 +22,8 @@ settings
   * Get http://code.google.com/apis/maps/signup.html
     a GOOGLE_MAPS_API key and add it to settings::
 
-    GOOGLE_API_KEY = 'ABQIAAAABH87p-yQOJj-sh06NusQiRTpH3CbXHjuCVmaTc5MkkU4wO1RRhTdrjDBgVDitkd2sidQwpIj12NE2w'
+     GOOGLE_API_KEY = 
+     'ABQIAAAABH87p-yQOJj-sh06NusQiRTpH3CbXHjuCVmaTc5MkkU4wO1RRhTdrjDBgVDitkd2sidQwpIj12NE2w'
 
   * syncdb
 
