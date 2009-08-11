@@ -19,8 +19,7 @@ settings
     'points.context_processors.ol_media',
     'points.context_processors.GAK',
 
-  * Get http://code.google.com/apis/maps/signup.html
-    a GOOGLE_MAPS_API key and add it to settings::
+  * Get http://code.google.com/apis/maps/signup.html a GOOGLE_MAPS_API key and add it to settings::
 
     GOOGLE_API_KEY = ...
 
