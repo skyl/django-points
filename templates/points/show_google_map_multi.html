@@ -14,9 +14,13 @@ with the css_id for the div to have the map.
 
                 var Gmap = new google.maps.Map2(document.getElementById("{{css_id}}"));
                 
-                var center = new GLatLng(google.loader.ClientLocation.latitude,
-                                         google.loader.ClientLocation.longitude
-                );
+                if (google.loader.ClientLocation){
+                        var center = new GLatLng(google.loader.ClientLocation.latitude,
+                                google.loader.ClientLocation.longitude
+                        );
+                }else {
+                    var center = new GLatLng(0,0)
+                }
                 
                 Gmap.setCenter(center, 1);
                 {% if points %}                

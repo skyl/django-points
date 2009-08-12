@@ -37,7 +37,7 @@ def show_google_map(model_instance, css_id="default-map"):
     return locals()
 
 @register.inclusion_tag('points/show_google_map_multi.html')
-def show_google_all(model_instance, css_id="default-map"):
+def show_google_all(model_instance):
     ''' Shows all points given a model_instance
 
     {% show_google_all model_instance css_id %}
@@ -46,6 +46,8 @@ def show_google_all(model_instance, css_id="default-map"):
     # FIXME, we should factor out some of this wet-ness
     ct = ContentType.objects.get_for_model(model_instance)
     obj_id = model_instance.id
+
+    css_id = '%s-%s' % (ct, obj_id)
 
     if Point.objects.filter(content_type = ct, object_id=obj_id):
         points = Point.objects.filter(content_type = ct, object_id=obj_id)
